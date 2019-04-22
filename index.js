@@ -3,13 +3,17 @@ const app = express();
 
 require('dotenv').config();
 
+const thunder = require('./thunder');
+
 app.get('/', (req, res) => {
   
   res.send('Hello World');
 });
 
 app.get('/email', (req, res) => {
+  thunder('App test');
 
+  res.send('done');
 });
 
 app.listen('3000', ()=>{
