@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/email', (req, res) => {
-  thunder('App test');
+  thunder.thunder2('Tweet from app');
 
   res.send('done');
 });
