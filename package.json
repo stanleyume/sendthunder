@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +28,6 @@
   },
   "homepage": "https://github.com/stanleyume/sendthunder#readme",
   "engines": {
-    "node": "8.11.x"
+    "node": "8.11.1"
   }
 }
