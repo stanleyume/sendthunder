@@ -21,7 +21,7 @@ app.get('/email', (req, res) => {
   res.send('done');
 });
 
-app.listen('3000', ()=>{
-  console.log('Japa');
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Running on port %d in %s mode", this.address().port, app.settings.env);
   
 });
