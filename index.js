@@ -72,8 +72,14 @@ app.post('/ifttt/v1/test/setup', (req, res) => {
 
 app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY || req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY)
-  res.sendStatus(401);
-  
+  res.status(401).json({
+    "errors": [
+      {
+        "message": "Something went wrong!"
+      }
+    ]
+  });
+
   res.header('Content-Type: application/json; charset=utf-8');
 
   let items = [
@@ -107,7 +113,7 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
 
   ];
 
-  if (req.body.limit) {
+  if (req.body.limit >= 0) {
     items = items.slice(0, req.body.limit);
   }
   
