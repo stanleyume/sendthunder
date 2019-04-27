@@ -21,6 +21,10 @@ app.get('/email', (req, res) => {
   res.send('done');
 });
 
+app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
+  res.send('ok');
+});
+
 app.listen(process.env.PORT || 3000, function(){
   console.log("Running on port %d in %s mode", this.address().port, app.settings.env);
   
