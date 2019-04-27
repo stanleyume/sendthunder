@@ -71,6 +71,9 @@ app.post('/ifttt/v1/test/setup', (req, res) => {
 });
 
 app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
+  if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY || req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY)
+  res.sendStatus(401);
+  
   res.header('Content-Type: application/json; charset=utf-8');
 
   let items = [
