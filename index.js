@@ -24,7 +24,7 @@ app.get('/email', (req, res) => {
 
 app.get('/ifttt/v1/status', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY)
-  res.sendStatus('401');
+  res.sendStatus(401);
   
   res.set({
     'IFTTT-Service-Key': process.env.IFTTT_SERVICE_KEY,
@@ -33,16 +33,16 @@ app.get('/ifttt/v1/status', (req, res) => {
     'Accept-Encoding': 'gzip, deflate',
     'X-Request-ID': uuid()
   });
-  res.sendStatus('200');
+  res.sendStatus(200);
 });
 
 app.post('/ifttt/v1/test/setup', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY || req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY)
-  res.sendStatus('401');
+  res.sendStatus(401);
   
   res.header('Content-Type: application/json; charset=utf-8');
 
-  res.status('200').json(
+  res.status(200).json(
     {
       "data": {
         // "accessToken": "taSvYgeXfM1HjVISJbUXVBIw1YUkKABm",
@@ -67,7 +67,36 @@ app.post('/ifttt/v1/test/setup', (req, res) => {
 });
 
 app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
-  res.send('ok');
+  res.header('Content-Type: application/json; charset=utf-8');
+  res.status(200).json({
+    data: [
+      {
+        "recipient": "@StreetArt",
+        "thunder_name": "Blue thunder",
+        "meta": {
+          "id": uuid(),
+          "timestamp": Date.now()
+        }
+      },
+      {
+        "recipient": "@Technology",
+        "thunder_name": "Red thunder",
+        "meta": {
+          "id": uuid(),
+          "timestamp": Date.now()
+        }
+      },
+      {
+        "recipient": "@Someone",
+        "thunder_name": "Green thunder",
+        "meta": {
+          "id": uuid(),
+          "timestamp": Date.now()
+        }
+      }
+
+    ]
+  });
 });
 
 app.listen(process.env.PORT || 3000, function(){
