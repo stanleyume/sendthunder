@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const uuid = require('uuid/v1');
 const app = express();
 
 require('dotenv').config();
@@ -22,6 +23,13 @@ app.get('/email', (req, res) => {
 });
 
 app.get('/ifttt/v1/status', (req, res) => {
+  res.set({
+    'IFTTT-Service-Key': process.env.IFTTT_SERVICE_KEY,
+    Accept: 'application/json',
+    'Accept-Charset': 'utf-8',
+    'Accept-Encoding': 'gzip, deflate',
+    'X-Request-ID': uuid()
+  });
   res.sendStatus('200');
 });
 
