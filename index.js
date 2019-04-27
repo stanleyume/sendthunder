@@ -74,24 +74,27 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
         "recipient": "@StreetArt",
         "thunder_name": "Blue thunder",
         "meta": {
+          "created_at": new Date().toISOString(),
           "id": uuid(),
-          "timestamp": Date.now()
+          "timestamp": Date.now() - 80
         }
       },
       {
         "recipient": "@Technology",
         "thunder_name": "Red thunder",
         "meta": {
+          "created_at": new Date().toISOString(),
           "id": uuid(),
-          "timestamp": Date.now()
+          "timestamp": Date.now() - 100
         }
       },
       {
         "recipient": "@Someone",
         "thunder_name": "Green thunder",
         "meta": {
+          "created_at": new Date().toISOString(),
           "id": uuid(),
-          "timestamp": Date.now()
+          "timestamp": Date.now() - 200
         }
       }
 
