@@ -73,8 +73,8 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
       {
         "recipient": "@StreetArt",
         "thunder_name": "Blue thunder",
+        "created_at": new Date().toISOString(),
         "meta": {
-          "created_at": new Date().toISOString(),
           "id": uuid(),
           "timestamp": Date.now() - 80
         }
@@ -82,8 +82,8 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
       {
         "recipient": "@Technology",
         "thunder_name": "Red thunder",
+        "created_at": new Date().toISOString(),
         "meta": {
-          "created_at": new Date().toISOString(),
           "id": uuid(),
           "timestamp": Date.now() - 100
         }
@@ -91,8 +91,8 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
       {
         "recipient": "@Someone",
         "thunder_name": "Green thunder",
+        "created_at": new Date().toISOString(),
         "meta": {
-          "created_at": new Date().toISOString(),
           "id": uuid(),
           "timestamp": Date.now() - 200
         }
