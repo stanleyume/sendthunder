@@ -23,6 +23,9 @@ app.get('/email', (req, res) => {
 });
 
 app.get('/ifttt/v1/status', (req, res) => {
+  if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY)
+  res.sendStatus('500');
+  
   res.set({
     'IFTTT-Service-Key': process.env.IFTTT_SERVICE_KEY,
     Accept: 'application/json',
@@ -31,6 +34,36 @@ app.get('/ifttt/v1/status', (req, res) => {
     'X-Request-ID': uuid()
   });
   res.sendStatus('200');
+});
+
+app.get('/ifttt/v1/test/setup', (req, res) => {
+  if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY || req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY)
+  res.sendStatus('500');
+  
+  res.header('Content-Type: application/json; charset=utf-8');
+
+  res.status('200').json(
+    {
+      "data": {
+        // "accessToken": "taSvYgeXfM1HjVISJbUXVBIw1YUkKABm",
+        "samples": {
+          // "triggers": {
+          //   "any_new_photo_in_album": {
+          //     "album": "Italy"
+          //   }
+          // },
+          // "triggerFieldValidations": {
+          //   "any_new_photo_in_album": {
+          //     "album": {
+          //       "valid": "Italy",
+          //       "invalid": "AlbumDoesNotExist"
+          //     }
+          //   }
+          // },
+        }
+      }
+    }
+  );
 });
 
 app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
