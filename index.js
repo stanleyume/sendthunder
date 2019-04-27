@@ -21,6 +21,10 @@ app.get('/email', (req, res) => {
   res.send('done');
 });
 
+app.post('/ifttt/v1/status', (req, res) => {
+  res.sendStatus('200');
+});
+
 app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
   res.send('ok');
 });
