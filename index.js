@@ -21,7 +21,7 @@ app.get('/email', (req, res) => {
   res.send('done');
 });
 
-app.post('/ifttt/v1/status', (req, res) => {
+app.get('/ifttt/v1/status', (req, res) => {
   res.sendStatus('200');
 });
 
