@@ -1,10 +1,18 @@
 const path = require('path');
 const express = require('express');
+const mongoose = require('mongoose');
 const uuid = require('uuid/v1');
 const bodyParser = require('body-parser');
 const app = express();
 
+require('./models/Thunder');
+require('./models/Order');
+const Thunder = mongoose.model('Thunder');
+const Order = mongoose.model('Order');
+
 require('dotenv').config();
+
+mongoose.connect(process.env.DATABASE);
 
 const thunder = require('./thunder');
 
@@ -20,10 +28,15 @@ app.get('/', (req, res) => {
   res.render('index.pug');
 });
 
-app.get('/email', (req, res) => {
-  thunder.thunder2('Tweet from app');
+// app.get('/email', (req, res) => {
+//   thunder.thunder2('Tweet from app');
 
-  res.send('done');
+//   res.send('done');
+// });
+
+app.post('/thunder', (req, res)=>{
+  new Thunder(req.body).save();
+  res.redirect('/');
 });
 
 app.get('/ifttt/v1/status', (req, res) => {
@@ -84,7 +97,7 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
 
   let items = [
     {
-      "recipient": "@StreetArt",
+      "recipient": "@umestanley",
       "thunder_name": "Blue thunder",
       "created_at": new Date().toISOString(),
       "meta": {
@@ -93,7 +106,7 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
       }
     },
     {
-      "recipient": "@Technology",
+      "recipient": "@amdbafrica",
       "thunder_name": "Red thunder",
       "created_at": new Date().toISOString(),
       "meta": {
@@ -102,7 +115,7 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
       }
     },
     {
-      "recipient": "@Someone",
+      "recipient": "@techwonda",
       "thunder_name": "Green thunder",
       "created_at": new Date().toISOString(),
       "meta": {
