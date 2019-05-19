@@ -19,7 +19,9 @@ const thunder = require('./thunder');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.set('views', path.join(__dirname, 'views'));
+// app.use(express.static(__dirname, '../public'));
+
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
@@ -34,10 +36,16 @@ app.get('/', (req, res) => {
 //   res.send('done');
 // });
 
+// Store new thunder
 app.post('/thunder', (req, res)=>{
   new Thunder(req.body).save();
   res.redirect('/');
 });
+
+app.post('/orders', (req, res) => {
+  // res.json(hello);
+  res.json(req.body);
+})
 
 app.get('/ifttt/v1/status', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY)
@@ -133,6 +141,10 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
   res.status(200).json({
     data: items
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.listen(process.env.PORT || 3000, function(){

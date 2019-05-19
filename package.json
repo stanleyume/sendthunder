@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@blueprintjs/core": "^3.15.1",
     "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "mailgun-js": "^0.22.0",
@@ -13,11 +15,25 @@
     "pug": "^2.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-feather": "^1.1.6",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  },
   "scripts": {
-    "start": "node index.js",
+    "start": "node server/index.js",
+    "dev": "concurrently \"npm run nodemon\" \"webpack-dev-server\"",
+    "client": "webpack-dev-server",
+    "nodemon": "nodemon --exec \"npm run start\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
