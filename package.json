@@ -31,7 +31,7 @@
     "webpack-dev-server": "^3.4.1"
   },
   "scripts": {
-    "start": "concurrently \"nodemon server/index.js\" \"webpack\"",
+    "start": "concurrently \"node server/index.js\" \"webpack\"",
     "server": "nodemon server/index.js",
     "dev": "concurrently \"npm run server\" \"webpack-dev-server\"",
     "client": "webpack-dev-server",
