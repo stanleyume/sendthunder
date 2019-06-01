@@ -1,2 +1,7 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 /* @import "~@blueprintjs/icons/lib/css/blueprint-icons.css"; */
+
+body {
+  background: linear-gradient(to top right, #ff9900, #22e0ff);
+  padding-top: 30px;
+}

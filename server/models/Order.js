@@ -7,9 +7,20 @@ const orderSchema = new mongoose.Schema({
     trim: true,
     required: 'Please enter a Twitter handle'
   },
-  thunder: {
-    type: mongoose.Schema.Types.ObjectId,
+  thunder_name: {
+    type: String,//mongoose.Schema.Types.ObjectId,
     ref: 'Thunder'
+  },
+  created_at: {
+    type: String,
+    default: new Date().toISOString()
+  },
+  meta: {
+    id: String,
+    timestamp: {
+      type: Number,
+      default: parseInt((new Date().getTime() / 1000).toFixed(0))
+    }
   }
 });
 

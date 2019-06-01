@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const uuid = require('uuid/v1');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 require('./models/Thunder');
@@ -16,19 +17,25 @@ mongoose.connect(process.env.DATABASE);
 
 const thunder = require('./thunder');
 
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.use(express.static(__dirname, '../public'));
+// Serve static files from the React App
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'pug');
+// app.use(express.static(__dirname +'../public'));
 
-app.get('/', (req, res) => {
+// app.set('views', path.join(__dirname, '../views'));
+// app.set('view engine', 'pug');
+
+// app.get('/', (req, res) => {
   
-  // res.send('Hello World');
-  res.render('index.pug');
-});
+//   // res.send('Hello World');
+//   res.sendFile(path.join(__dirname, '../public/index.html'));
+//   // res.render('index.pug');
+// });
 
 // app.get('/email', (req, res) => {
 //   thunder.thunder2('Tweet from app');
@@ -37,15 +44,38 @@ app.get('/', (req, res) => {
 // });
 
 // Store new thunder
-app.post('/thunder', (req, res)=>{
-  new Thunder(req.body).save();
-  res.redirect('/');
+app.post('/api/thunders', async (req, res)=>{
+  const dupes = await Thunder.find({name: req.body.name});
+
+  if(!dupes || dupes == ''){
+    const thunder = await new Thunder(req.body)
+    await thunder.save();
+    res.send(thunder).status(200);
+  } else {
+    res.sendStatus(403);
+  }
+});
+// Get thunders
+app.get('/api/thunders', async (req, res)=>{
+  const thunders = await Thunder.find({})
+  res.send(thunders).status(200);
 });
 
-app.post('/orders', (req, res) => {
-  // res.json(hello);
-  res.json(req.body);
-})
+app.get('/api/orders', async (req, res) => {
+  const orders = await Order.find({});
+  res.json(orders).status(200);
+  // return;
+});
+
+app.post('/api/orders', async (req, res) => {
+  let order = new Order;
+  order.thunder_name = req.body.thunder_name;
+  order.recipient = '@'+req.body.recipient;
+  order.meta.id = uuid();
+  await order.save();
+  res.send(order).status(200);
+  // return;
+});
 
 app.get('/ifttt/v1/status', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY)
@@ -91,8 +121,8 @@ app.post('/ifttt/v1/test/setup', (req, res) => {
   );
 });
 
-app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
-  if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY || req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY)
+app.post('/ifttt/v1/triggers/get_thunders', async (req, res) => {
+  if((req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY) && (req.header('IFTTT-Channel-Key') != process.env.IFTTT_SERVICE_KEY))
   res.status(401).json({
     "errors": [
       {
@@ -101,38 +131,42 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
     ]
   });
 
-  res.header('Content-Type: application/json; charset=utf-8');
+  // res.header('Content-Type: application/json; charset=utf-8');
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('charset', 'utf-8');
 
-  let items = [
-    {
-      "recipient": "@umestanley",
-      "thunder_name": "Blue thunder",
-      "created_at": new Date().toISOString(),
-      "meta": {
-        "id": uuid(),
-        "timestamp": parseInt((new Date('2019.04.10').getTime() / 1000).toFixed(0))
-      }
-    },
-    {
-      "recipient": "@amdbafrica",
-      "thunder_name": "Red thunder",
-      "created_at": new Date().toISOString(),
-      "meta": {
-        "id": uuid(),
-        "timestamp": parseInt((new Date('2019.04.05').getTime() / 1000).toFixed(0))
-      }
-    },
-    {
-      "recipient": "@techwonda",
-      "thunder_name": "Green thunder",
-      "created_at": new Date().toISOString(),
-      "meta": {
-        "id": uuid(),
-        "timestamp": parseInt((new Date('2019.04.01').getTime() / 1000).toFixed(0))
-      }
-    }
+  let items = await Order.find({}).sort({ 'meta.timestamp': -1 });
 
-  ];
+  // let items = [
+  //   {
+  //     "recipient": "@umestanley",
+  //     "thunder_name": "Blue thunder",
+  //     "created_at": new Date().toISOString(),
+  //     "meta": {
+  //       "id": uuid(),
+  //       "timestamp": parseInt((new Date('2019.04.10').getTime() / 1000).toFixed(0))
+  //     }
+  //   },
+  //   {
+  //     "recipient": "@amdbafrica",
+  //     "thunder_name": "Red thunder",
+  //     "created_at": new Date().toISOString(),
+  //     "meta": {
+  //       "id": uuid(),
+  //       "timestamp": parseInt((new Date('2019.04.05').getTime() / 1000).toFixed(0))
+  //     }
+  //   },
+  //   {
+  //     "recipient": "@techwonda",
+  //     "thunder_name": "Green thunder",
+  //     "created_at": new Date().toISOString(),
+  //     "meta": {
+  //       "id": uuid(),
+  //       "timestamp": parseInt((new Date('2019.04.01').getTime() / 1000).toFixed(0))
+  //     }
+  //   }
+
+  // ];
 
   if (req.body.limit >= 0) {
     items = items.slice(0, req.body.limit);
@@ -143,11 +177,21 @@ app.post('/ifttt/v1/triggers/get_thunders', (req, res) => {
   });
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../public/index.html'));
+// });
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/../public/index.html'));
+});
+app.get('/main.js', (req, res) => {
+  res.sendFile(path.join(__dirname+'/../public/main.js'));
 });
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 8080, function(){
   console.log("Running on port %d in %s mode", this.address().port, app.settings.env);
+  console.log(process.env.NODE_ENV);
   
 });
