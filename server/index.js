@@ -186,7 +186,7 @@ app.post('/ifttt/v1/triggers/get_thunders', async (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'/../public/index.html'));
 });
-app.get('/main.js', (req, res) => {
+app.get('/public/main.js', (req, res) => {
   res.sendFile(path.join(__dirname+'/../public/main.js'));
 });
 

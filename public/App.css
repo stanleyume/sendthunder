@@ -1,7 +1,25 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 /* @import "~@blueprintjs/icons/lib/css/blueprint-icons.css"; */
 
-body {
-  background: linear-gradient(to top right, #ff9900, #22e0ff);
-  padding-top: 30px;
+.cover {
+  /* background: linear-gradient(to top right, #ff9900, #22e0ff); */
+  background: url('/lightning.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left;
+  padding-top: 50px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.overlay {
+  position: absolute;
+  background: #0008;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
 }
