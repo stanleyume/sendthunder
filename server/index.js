@@ -189,6 +189,9 @@ app.get('/', (req, res) => {
 app.get('/public/main.js', (req, res) => {
   res.sendFile(path.join(__dirname+'/../public/main.js'));
 });
+app.get('/lightning.jpg', (req, res) => {
+  res.sendFile(path.join(__dirname+'/../public/lightning.jpg'));
+});
 
 app.listen(process.env.PORT || 8080, function(){
   console.log("Running on port %d in %s mode", this.address().port, app.settings.env);
