@@ -192,6 +192,9 @@ app.get('/public/main.js', (req, res) => {
 app.get('/lightning.jpg', (req, res) => {
   res.sendFile(path.join(__dirname+'/../public/lightning.jpg'));
 });
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname+'/../public/favicon.ico'));
+});
 
 app.listen(process.env.PORT || 8080, function(){
   console.log("Running on port %d in %s mode", this.address().port, app.settings.env);
