@@ -28,7 +28,7 @@ body {
   /* background: linear-gradient(to top right, #ff9900, #22e0ff); */
   background: url('/lightning.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
+  /* background-size: cover; */
   background-attachment: fixed;
 }
 
@@ -82,7 +82,7 @@ input {
   color: #FFF;
 }
 
-@media(min-width: 400px) {
+@media(min-width: 470px) {
   #app {
     width: 70%;
   }
