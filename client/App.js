@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { HTMLSelect, InputGroup, ControlGroup, FormGroup, Navbar, Alignment, Button, Toast, Toaster, Icon } from '@blueprintjs/core';
-import { AtSign, Send, XCircle } from 'react-feather';
-import { serverUrl } from './config';
+import { Toaster, Icon } from '@blueprintjs/core';
+// import { HTMLSelect, InputGroup, ControlGroup, FormGroup, Navbar, Alignment, Button, Toast, Toaster, Icon } from '@blueprintjs/core';
+// import { AtSign, Send, XCircle } from 'react-feather';
+// import { serverUrl } from './config';
 
 class App extends Component {
 

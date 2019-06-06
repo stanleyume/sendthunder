@@ -29,12 +29,7 @@ body {
   background: url('/lightning.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-position: left; */
-  /* position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0; */
+  background-attachment: fixed;
 }
 
 .overlay {
@@ -81,12 +76,17 @@ input {
 }
 #app {
   padding-top: 30px;
-  width: 60%;
+  width: 85%;
   text-align: center;
   margin: 0 auto;
   color: #FFF;
 }
 
+@media(min-width: 400px) {
+  #app {
+    width: 70%;
+  }
+}
 @media(min-width: 800px) {
   #app {
     width: 40%;
