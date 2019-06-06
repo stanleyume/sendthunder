@@ -106,14 +106,10 @@ class App extends Component {
 
     <br/>
     
-    {/* <form onSubmit={this.createThunder.bind(this)}>
+    <form onSubmit={this.createThunder.bind(this)}>
       <InputGroup placeholder="Thunder title" name="name" large required/>
       <Button intent="success" large type="submit">Save</Button>
-    </form> */}
-
-    {/* <ul>
-      {this.state.orders.map((order, index) => { return <li key={index}>{order.thunder_name} > {order.recipient}</li>})}
-    </ul> */}
+    </form>
 
     <table>
       <thead>
