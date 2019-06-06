@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import iziToast from 'izitoast';
 import { HTMLSelect, InputGroup, ControlGroup, FormGroup, Navbar, Alignment, Button, Toast, Toaster, Icon } from '@blueprintjs/core';
 import { AtSign, Send, XCircle } from 'react-feather';
 import { serverUrl } from './config';
@@ -43,10 +42,6 @@ class App extends Component {
     
     fetch('/api/orders', {method: 'POST', body: JSON.stringify(formData), headers: {"Content-Type":"application/json"}}).then(res => {
         if(!res.ok){
-          // iziToast.show({
-          //   title: 'Hey',
-          //   message: 'What would you like to add?'
-          // });
           Toaster.create({position: "top"}).show({message: res.statusText, intent: "danger", icon: <Icon icon="error"/>});
           throw Error(res.statusText);
         } else {
