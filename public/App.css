@@ -109,6 +109,7 @@ table {
   margin-bottom: 30px;
   width: 100%;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 th {
@@ -120,4 +121,10 @@ table, th, tr, td {
   border-collapse: collapse;
   padding: 10px;
   text-align: left;
+  background: #DEF;
+  color: #000;
+}
+
+a, a:hover, a:visited {
+  color: inherit;
 }

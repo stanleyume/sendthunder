@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { HTMLSelect, InputGroup, ControlGroup, FormGroup, Navbar, Alignment, Button } from '@blueprintjs/core';
-import { AtSign, Send } from 'react-feather';
+import iziToast from 'izitoast';
+import { HTMLSelect, InputGroup, ControlGroup, FormGroup, Navbar, Alignment, Button, Toast, Toaster, Icon } from '@blueprintjs/core';
+import { AtSign, Send, XCircle } from 'react-feather';
 import { serverUrl } from './config';
 
 class App extends Component {
@@ -40,7 +41,22 @@ class App extends Component {
     let formData = {thunder_name: data.get('thunder'), recipient: data.get('recipient')};
     // console.log(formData);
     
-    fetch('/api/orders', {method: 'POST', body: JSON.stringify(formData), headers: {"Content-Type":"application/json"}}).then(res => res.json()).then(order => {this.setState({orders: [...this.state.orders, order]})} ).catch(e => console.log(e));
+    fetch('/api/orders', {method: 'POST', body: JSON.stringify(formData), headers: {"Content-Type":"application/json"}}).then(res => {
+        if(!res.ok){
+          // iziToast.show({
+          //   title: 'Hey',
+          //   message: 'What would you like to add?'
+          // });
+          Toaster.create({position: "top"}).show({message: res.statusText, intent: "danger", icon: <Icon icon="error"/>});
+          throw Error(res.statusText);
+        } else {
+          Toaster.create({position: "top"}).show({message: res.statusText + " 🚚📦", intent: "success", icon: <Icon icon="tick-circle"/>});
+          return res.json();
+        }
+      }).then(order => {
+          document.getElementsByName('recipient')[0].value = '';
+          this.setState({orders: [order, ...this.state.orders]})
+        } ).catch(e => console.log(e));
   }
 
   createThunder(event){
@@ -56,7 +72,7 @@ class App extends Component {
     return (<div>
 
     <h1 className="title">Send Thunder</h1>
-    <h3 className="sub-title">Anonymously send thunder to any Twitter user of your choice</h3>
+    <h3 className="sub-title">Anonymously send thunder to anyone via Twitter</h3>
   
     <form onSubmit={this.handleSubmit.bind(this)} method="POST">
 
@@ -83,7 +99,7 @@ class App extends Component {
 
       <div style={{ display: 'flex' }}>
         <input value="@" readOnly style={{ width:'10%', minWidth: '50px', textAlign: 'center', borderRadius: '7px 0 0 7px', borderRight: 'none' }}/>
-        <input name="recipient" placeholder="Twitter handle" autocomplete="off" style={{ borderRadius: '0 7px 7px 0' }}/>
+        <input name="recipient" placeholder="Twitter handle" autoComplete="off" style={{ borderRadius: '0 7px 7px 0' }}/>
       </div>
 
       
@@ -106,13 +122,17 @@ class App extends Component {
 
     <table>
       <thead>
-        <th>Thunder</th>
-        <th>Recipient</th>
+        <tr>
+          <th width="50%">Thunder</th>
+          <th>Recipient</th>
+        </tr>
       </thead>
       <tbody>
-        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td>{order.recipient}</td></tr>})}
+        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td><a href={'https://twitter.com/'+order.recipient.replace('@', '')} target="_blank">{order.recipient}</a></td></tr>})}
       </tbody>
     </table>
+
+    <div>Check Tweets & Replies of <a href="https://twitter.com/sendthunder" target="_blank"><u>@sendthunder</u></a></div>
 
     <div className="footer">&copy; All Rice Re-Served 🍚</div>
   

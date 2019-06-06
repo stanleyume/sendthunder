@@ -13,7 +13,7 @@ const Order = mongoose.model('Order');
 
 require('dotenv').config();
 
-mongoose.connect(process.env.DATABASE);
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 
 const thunder = require('./thunder');
 
@@ -62,19 +62,30 @@ app.get('/api/thunders', async (req, res)=>{
 });
 
 app.get('/api/orders', async (req, res) => {
-  const orders = await Order.find({});
+  const orders = await Order.find({}).sort({ 'meta.timestamp': -1 }).limit(10);
   res.json(orders).status(200);
   // return;
 });
 
 app.post('/api/orders', async (req, res) => {
+  let { thunder_name, recipient } = req.body;
+  thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
+  recipient = recipient.replace(/<[^>]*>?/gm, '');
+  recipient = recipient.replace(/@/g, '');
+  if(recipient.length > 15){
+    res.statusMessage = 'Invalid Twitter handle';
+    return res.sendStatus(403);
+  }
+
   let order = new Order;
-  order.thunder_name = req.body.thunder_name;
-  order.recipient = '@'+req.body.recipient;
+  order.thunder_name = thunder_name;
+  order.recipient = '@'+recipient;
   order.meta.id = uuid();
   await order.save();
+  res.statusMessage = "Thunder dispatched! Will be delivered shortly.";
   res.send(order).status(200);
   // return;
+
 });
 
 app.get('/ifttt/v1/status', (req, res) => {
