@@ -106,10 +106,10 @@ class App extends Component {
 
     <br/>
     
-    <form onSubmit={this.createThunder.bind(this)}>
+    {/* <form onSubmit={this.createThunder.bind(this)}>
       <InputGroup placeholder="Thunder title" name="name" large required/>
       <Button intent="success" large type="submit">Save</Button>
-    </form>
+    </form> */}
 
     <table>
       <thead>
