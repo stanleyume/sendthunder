@@ -72,8 +72,12 @@ app.post('/api/orders', async (req, res) => {
   thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
   recipient = recipient.replace(/<[^>]*>?/gm, '');
   recipient = recipient.replace(/@/g, '');
-  if(recipient.length > 15){
+  if(recipient.length > 15 || recipient.length < 2){
     res.statusMessage = 'Invalid Twitter handle';
+    return res.sendStatus(403);
+  }
+  if(thunder_name == ''){
+    res.statusMessage = 'Invalid Thunder name';
     return res.sendStatus(403);
   }
 

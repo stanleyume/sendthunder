@@ -13,13 +13,13 @@ const orderSchema = new mongoose.Schema({
   },
   created_at: {
     type: String,
-    default: new Date().toISOString()
+    default: () => { return new Date().toISOString() }
   },
   meta: {
     id: String,
     timestamp: {
       type: Number,
-      default: parseInt((new Date().getTime() / 1000).toFixed(0))
+      default: () => { return parseInt((new Date().getTime() / 1000).toFixed(0)) }
     }
   }
 });
