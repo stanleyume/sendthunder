@@ -22,7 +22,8 @@ class App extends Component {
         // 'Thunder that works remotely',
         // 'Thunder with black belt'
       ],
-      orders: []
+      orders: [],
+      orders_today: 0
     }
 
   }
@@ -32,6 +33,8 @@ class App extends Component {
       fetch('/api/orders', { headers: {'Content-Type':'application/json'} }).then(res => res.json()).then(orders => this.setState({orders: orders})).catch(e => console.log(e));
       // Get Thunders
       fetch('/api/thunders').then(response => response.json()).then(thunders => this.setState({thunders: thunders})).catch(e => console.log(e));
+      // Get Orders Today
+      fetch('/api/orders/count').then(response => response.json()).then(count_today => { this.setState({orders_today: count_today}) }).catch(e => console.log(e));
   }
 
   handleSubmit(event){
@@ -50,7 +53,7 @@ class App extends Component {
         }
       }).then(order => {
           document.getElementsByName('recipient')[0].value = '';
-          this.setState({orders: [order, ...this.state.orders]})
+          this.setState({orders: [order, ...this.state.orders], orders_today: this.state.orders_today + 1 })
         } ).catch(e => console.log(e));
   }
 
@@ -128,7 +131,9 @@ class App extends Component {
 
     <div>Check Tweets & Replies of <a href="https://twitter.com/sendthunder" target="_blank"><u>@sendthunder</u></a></div>
 
-    <div className="footer">&copy; All Rice Re-Served 🍚</div>
+    <div style={{ marginTop: '20px' }}>{ this.state.orders_today + 5 }</div>
+
+    <div className="footer">&copy; { new Date().getFullYear() }. All Rice Re-Served 🍚</div>
   
   </div>);
   }

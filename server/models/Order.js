@@ -24,4 +24,10 @@ const orderSchema = new mongoose.Schema({
   }
 });
 
+orderSchema.statics.sentToday = async function () {
+    // Get orders sent today
+    const orders_today = await this.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
+    return orders_today;
+}
+
 module.exports = mongoose.model('Order', orderSchema);

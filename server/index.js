@@ -69,11 +69,18 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
   // No more requests
-  res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
-  return res.sendStatus(403);
+  // res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
+  // return res.sendStatus(403);
 
   // Get orders sent today
-  // const orders_today = await Order.find({}).sort({ 'meta.timestamp': -1 }).limit(20);
+  // const orders_today = await Order.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
+
+  let sent_today = await Order.sentToday();
+  if (sent_today.length >= 25) {
+      res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
+      return res.sendStatus(403);
+  }
+
   let { thunder_name, recipient } = req.body;
   thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
   recipient = recipient.replace(/<[^>]*>?/gm, '');
@@ -97,6 +104,18 @@ app.post('/api/orders', async (req, res) => {
   res.send(order).status(200);
   // return;
 
+});
+
+// How many today?
+app.get('/api/orders/count', async (req, res) => {
+  try {
+    let sent_today = await Order.sentToday();
+    let count = sent_today.length.toString();
+    return res.status(200).send(count);
+  } catch (error) {
+    res.statusMessage = error;
+    return res.sendStatus(403);
+  }
 });
 
 app.get('/ifttt/v1/status', (req, res) => {
