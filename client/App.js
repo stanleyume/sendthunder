@@ -86,7 +86,7 @@ class App extends Component {
 
       <Button intent="success" large type="submit">Fire</Button> */}
 
-    {/* <form onSubmit={this.handleSubmit.bind(this)} method="POST">
+    <form onSubmit={this.handleSubmit.bind(this)} method="POST">
 
       <select name="thunder" style={{ marginBottom: '15px', marginTop: '25px' }}>
         { this.state.thunders.map((thunder, i) => <option value={thunder.name} key={i}>{thunder.name}</option>) }
@@ -102,10 +102,10 @@ class App extends Component {
 
       <button type="submit" className="submit-btn">⚡ Fire</button>
 
-    </form> */}
+    </form>
 
     
-    <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2>
+    {/* <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2> */}
 
     <br/>
     

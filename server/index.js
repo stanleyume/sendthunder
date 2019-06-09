@@ -67,31 +67,37 @@ app.get('/api/orders', async (req, res) => {
   // return;
 });
 
-// app.post('/api/orders', async (req, res) => {
-//   let { thunder_name, recipient } = req.body;
-//   thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
-//   recipient = recipient.replace(/<[^>]*>?/gm, '');
-//   recipient = recipient.replace(/@/g, '');
-//   recipient = recipient.toLowerCase();
-//   if(recipient.length > 15 || recipient.length < 2 || recipient.indexOf('sendthunder') !== -1){
-//     res.statusMessage = 'Invalid Twitter handle';
-//     return res.sendStatus(403);
-//   }
-//   if(thunder_name == ''){
-//     res.statusMessage = 'Invalid Thunder name';
-//     return res.sendStatus(403);
-//   }
+app.post('/api/orders', async (req, res) => {
+  // No more requests
+  res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
+  return res.sendStatus(403);
 
-//   let order = new Order;
-//   order.thunder_name = thunder_name;
-//   order.recipient = '@'+recipient;
-//   order.meta.id = uuid();
-//   await order.save();
-//   res.statusMessage = "Thunder dispatched! Will be delivered shortly.";
-//   res.send(order).status(200);
-//   // return;
+  // Get orders sent today
+  // const orders_today = await Order.find({}).sort({ 'meta.timestamp': -1 }).limit(20);
+  let { thunder_name, recipient } = req.body;
+  thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
+  recipient = recipient.replace(/<[^>]*>?/gm, '');
+  recipient = recipient.replace(/@/g, '');
+  recipient = recipient.toLowerCase();
+  if(recipient.length > 15 || recipient.length < 2 || recipient.indexOf('sendthunder') !== -1){
+    res.statusMessage = 'Invalid Twitter handle';
+    return res.sendStatus(403);
+  }
+  if(thunder_name == ''){
+    res.statusMessage = 'Invalid Thunder name';
+    return res.sendStatus(403);
+  }
 
-// });
+  let order = new Order;
+  order.thunder_name = thunder_name;
+  order.recipient = '@'+recipient;
+  order.meta.id = uuid();
+  await order.save();
+  res.statusMessage = "Thunder dispatched! Will be delivered shortly.";
+  res.send(order).status(200);
+  // return;
+
+});
 
 app.get('/ifttt/v1/status', (req, res) => {
   if(req.header('IFTTT-Service-Key') != process.env.IFTTT_SERVICE_KEY)
