@@ -9,8 +9,8 @@ const orderSchema = new mongoose.Schema({
     required: 'Please enter a Twitter handle'
   },
   thunder_name: {
-    type: String,//mongoose.Schema.Types.ObjectId,
-    ref: 'Thunder'
+    type: String, // mongoose.Schema.Types.ObjectId, ... Relate with thunder collection, no?
+    // ref: 'Thunder'
   },
   created_at: {
     type: String,
@@ -25,11 +25,12 @@ const orderSchema = new mongoose.Schema({
   }
 });
 
+// Get orders sent today
 orderSchema.statics.sentToday = async function () {
-    // Get orders sent today
+  // This shit don't work on Atlas, because $where.
+  // const orders_today = await this.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
+
     const today = moment().startOf('day');
-    // This shit don't work on Atlas
-    // const orders_today = await this.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
     const orders_today = await this.find({
       created_at: {
         $gte: today.toISOString(),

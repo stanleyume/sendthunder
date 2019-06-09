@@ -41,7 +41,6 @@ class App extends Component {
     event.preventDefault();
     const data = new FormData(event.target);
     let formData = {thunder_name: data.get('thunder'), recipient: data.get('recipient')};
-    // console.log(formData);
     
     fetch('/api/orders', {method: 'POST', body: JSON.stringify(formData), headers: {"Content-Type":"application/json"}}).then(res => {
         if(!res.ok){
@@ -71,23 +70,7 @@ class App extends Component {
 
     <h1 className="title">Send Thunder</h1>
     <h3 className="sub-title">Anonymously send thunder to anyone via Twitter</h3>
-  
-      {/* <FormGroup label="Select Thunder">
-        <HTMLSelect large fill name="thunder" options={this.state.thunders.map(a=>(a.name))}>
-          
-        </HTMLSelect>
-      </FormGroup>
 
-      <FormGroup label="Recepient's Twitter">
-        <ControlGroup fill={true} vertical={false}>
-            <Button style={{ maxWidth: '50px'  }}><AtSign/></Button>
-            <InputGroup placeholder="umestanley" name="recipient" large/>
-        </ControlGroup>
-      </FormGroup>
-
-      <br/>
-
-      <Button intent="success" large type="submit">Fire</Button> */}
 
     <form onSubmit={this.handleSubmit.bind(this)} method="POST">
 
