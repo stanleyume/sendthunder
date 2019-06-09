@@ -69,8 +69,6 @@ class App extends Component {
     <h1 className="title">Send Thunder</h1>
     <h3 className="sub-title">Anonymously send thunder to anyone via Twitter</h3>
   
-    <form onSubmit={this.handleSubmit.bind(this)} method="POST">
-
       {/* <FormGroup label="Select Thunder">
         <HTMLSelect large fill name="thunder" options={this.state.thunders.map(a=>(a.name))}>
           
@@ -88,6 +86,8 @@ class App extends Component {
 
       <Button intent="success" large type="submit">Fire</Button> */}
 
+    {/* <form onSubmit={this.handleSubmit.bind(this)} method="POST">
+
       <select name="thunder" style={{ marginBottom: '15px', marginTop: '25px' }}>
         { this.state.thunders.map((thunder, i) => <option value={thunder.name} key={i}>{thunder.name}</option>) }
       </select>
@@ -102,7 +102,10 @@ class App extends Component {
 
       <button type="submit" className="submit-btn">⚡ Fire</button>
 
-    </form>
+    </form> */}
+
+    
+    <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2>
 
     <br/>
     
