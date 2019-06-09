@@ -69,8 +69,8 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
   // No more requests
-  // res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
-  // return res.sendStatus(403);
+  res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
+  return res.sendStatus(403);
 
   // Get orders sent today
   // const orders_today = await Order.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
