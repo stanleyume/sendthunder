@@ -40,4 +40,15 @@ orderSchema.statics.sentToday = async function () {
     return orders_today;
 }
 
+orderSchema.statics.sentThisHour = async function () {
+  const thisHour = moment().startOf('hour');
+  const orders_this_hour = await this.find({
+    created_at: {
+      $gte: thisHour.toISOString(),
+      $lte: moment(thisHour).endOf('hour').toISOString()
+    }
+  }).sort({ 'meta.timestamp': -1 });
+  return orders_this_hour;
+}
+
 module.exports = mongoose.model('Order', orderSchema);

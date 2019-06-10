@@ -63,10 +63,20 @@ app.get('/api/orders', async (req, res) => {
 app.post('/api/orders', async (req, res) => {
 
   // Rate limiting, becuase IFTTT
-  let sent_today = await Order.sentToday();
-  if (sent_today.length >= 12) {
-      res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
+  let sentToday = await Order.sentToday();
+  let sentThisHour = await Order.sentThisHour();
+  let whatHour = new Date().getHours();
+  console.log(sentToday.length);
+
+  // Daily and hourly rate limits
+  if (sentToday.length >= 100 || sentThisHour.length >= 7) {
+      res.statusMessage = "Please try again in an hour. All thunders have been summoned for a general meeting.";
       return res.sendStatus(403);
+  }
+  // Prevent posts between 12AM and 6:59AM
+  if (whatHour < 7) {
+    res.statusMessage = "Thunders are asleep. Work resumes by 7AM.";
+    return res.sendStatus(403);
   }
 
   let { thunder_name, recipient } = req.body;
@@ -95,8 +105,8 @@ app.post('/api/orders', async (req, res) => {
 // How many today?
 app.get('/api/orders/count', async (req, res) => {
   try {
-    let sent_today = await Order.sentToday();
-    let count = sent_today.length.toString();
+    let sentToday = await Order.sentToday();
+    let count = sentToday.length.toString();
     return res.status(200).send(count);
   } catch (error) {
     res.statusMessage = "Couldn't get order count";

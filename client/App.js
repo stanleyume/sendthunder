@@ -9,15 +9,15 @@ class App extends Component {
     super(props);
     this.state = {
       thunders: [
-        "Thunder with six packs",
-        "Thunder doing press up",
+        "Thunder with six-pack",
+        "Thunder doing press-up",
         "Thunder with pot belly",
         "Thunder with gym subscription",
         "Thunder with anger issues",
         "Thunder from Mushin",
         "Thunder with Infinity Gauntlet",
         "Thunder with mental problems",
-        "Thunder wey smoke Osun weed",
+        "Thunder wey smoke Oshogbo weed",
         "Thunder with black belt",
         "Thunder that works remotely",
         "Thunder that took John Wick's crash course",
@@ -118,7 +118,7 @@ class App extends Component {
 
     <div>Check Tweets & Replies of <a href="https://twitter.com/sendthunder" target="_blank"><u>@sendthunder</u></a></div>
 
-    <div style={{ marginTop: '20px' }}>{ this.state.orders_today + 5 }</div>
+    <div style={{ marginTop: '20px' }}>{ this.state.orders_today }</div>
 
     <div className="footer">&copy; { new Date().getFullYear() }. All Rice Re-Served 🍚</div>
   
