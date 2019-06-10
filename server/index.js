@@ -64,7 +64,7 @@ app.post('/api/orders', async (req, res) => {
 
   // Rate limiting, becuase IFTTT
   let sent_today = await Order.sentToday();
-  if (sent_today.length >= 95) {
+  if (sent_today.length >= 12) {
       res.statusMessage = "Please try again later. All thunders have been summoned for a general meeting.";
       return res.sendStatus(403);
   }

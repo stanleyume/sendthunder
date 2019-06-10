@@ -9,18 +9,19 @@ class App extends Component {
     super(props);
     this.state = {
       thunders: [
-        // 'Thunder with six packs',
-        // 'Thunder with pot belly',
-        // 'Thunder with gym subscription',
-        // 'Thunder with anger issues',
-        // 'Thunder doing press up',
-        // 'Thunder from Mushin',
-        // 'Thunder with Infinity gauntlet',
-        // 'Thunder with mental problems',
-        // 'Thunder wey smoke weed',
-        // 'Thunder that took John Wick's crash course',
-        // 'Thunder that works remotely',
-        // 'Thunder with black belt'
+        "Thunder with six packs",
+        "Thunder doing press up",
+        "Thunder with pot belly",
+        "Thunder with gym subscription",
+        "Thunder with anger issues",
+        "Thunder from Mushin",
+        "Thunder with Infinity Gauntlet",
+        "Thunder with mental problems",
+        "Thunder wey smoke Osun weed",
+        "Thunder with black belt",
+        "Thunder that works remotely",
+        "Thunder that took John Wick's crash course",
+        "Thunder that did internship with Sango"
       ],
       orders: [],
       orders_today: 0
@@ -31,10 +32,13 @@ class App extends Component {
   componentDidMount(){
       // Get Orders
       fetch('/api/orders', { headers: {'Content-Type':'application/json'} }).then(res => res.json()).then(orders => this.setState({orders: orders})).catch(e => console.log(e));
+
       // Get Thunders
-      fetch('/api/thunders').then(response => response.json()).then(thunders => this.setState({thunders: thunders})).catch(e => console.log(e));
+      // fetch('/api/thunders').then(response => response.json()).then(thunders => this.setState({thunders: thunders})).catch(e => console.log(e));
+
       // Get Orders Today
       fetch('/api/orders/count').then(response => response.json()).then(count_today => { this.setState({orders_today: count_today}) }).catch(e => console.log(e));
+      console.log(this.state);
   }
 
   handleSubmit(event){
@@ -75,7 +79,7 @@ class App extends Component {
     <form onSubmit={this.handleSubmit.bind(this)} method="POST">
 
       <select name="thunder" style={{ marginBottom: '15px', marginTop: '25px' }}>
-        { this.state.thunders.map((thunder, i) => <option value={thunder.name} key={i}>{thunder.name}</option>) }
+        { this.state.thunders.map((thunder, i) => <option value={thunder} key={i}>{thunder}</option>) }
       </select>
 
       <div style={{ display: 'flex' }}>
