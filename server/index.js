@@ -66,7 +66,6 @@ app.post('/api/orders', async (req, res) => {
   let sentToday = await Order.sentToday();
   let sentThisHour = await Order.sentThisHour();
   let whatHour = new Date().getHours();
-  console.log(sentToday.length);
 
   // Daily and hourly rate limits
   if (sentToday.length >= 100 || sentThisHour.length >= 7) {
@@ -90,6 +89,12 @@ app.post('/api/orders', async (req, res) => {
   }
   if(thunder_name == ''){
     res.statusMessage = 'Invalid Thunder name';
+    return res.sendStatus(403);
+  }
+
+  // Can't send to anyone more than once/day
+  if (sentToday.filter(order => order.recipient == '@'+recipient).length > 0) {
+    res.statusMessage = "This person already received one thunder today, please send to someone else.";
     return res.sendStatus(403);
   }
 
