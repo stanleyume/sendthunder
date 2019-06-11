@@ -31,7 +31,7 @@ class App extends Component {
       ],
       orders: [],
       orders_today: 0,
-      orders_count: 0
+      orders_all: 0
     }
 
   }
@@ -44,14 +44,14 @@ class App extends Component {
       // fetch('/api/thunders').then(response => response.json()).then(thunders => this.setState({thunders: thunders})).catch(e => console.log(e));
 
       // Get Orders Today
-      fetch('/api/orders/count').then(response => response.json()).then(count_today => { this.setState({orders_today: count_today}) }).catch(e => console.log(e));
+      fetch('/api/orders/count').then(response => response.json()).then(counts => { this.setState({orders_today: counts.countToday, orders_all: counts.countAll}) }).catch(e => console.log(e));
       console.log(this.state);
   }
 
   handleSubmit(event){
     event.preventDefault();
     const data = new FormData(event.target);
-    let formData = {thunder_name: data.get('thunder'), recipient: data.get('recipient')};
+    let formData = {thunder_name: data.get('thunder'), recipient: data.get('recipient'), thunders: this.state.thunders};
     
     fetch('/api/orders', {method: 'POST', body: JSON.stringify(formData), headers: {"Content-Type":"application/json"}}).then(res => {
         if(!res.ok){
@@ -63,7 +63,7 @@ class App extends Component {
         }
       }).then(order => {
           document.getElementsByName('recipient')[0].value = '';
-          this.setState({orders: [order, ...this.state.orders], orders_today: this.state.orders_today + 1 })
+          this.setState({orders: [order, ...this.state.orders], orders_today: this.state.orders_today + 1, orders_all: this.state.orders_all + 1 })
         } ).catch(e => console.log(e));
   }
 
@@ -103,7 +103,7 @@ class App extends Component {
 
     
     {/* <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2> */}
-    {/* <div style={{ marginTop: '30px', color:'#DDD', fontSize:'30px' }}>{ this.state.orders_today } thunders dispatched</div> */}
+    <div style={{ marginTop: '30px', color:'#DDD', fontSize:'30px' }}>{ this.state.orders_all } orders processed</div>
 
     
     {/* <form onSubmit={this.createThunder.bind(this)}>
@@ -126,11 +126,12 @@ class App extends Component {
 
     <div>Check Tweets & Replies of <a href="https://twitter.com/sendthunder" target="_blank"><u>@sendthunder</u></a></div>
 
-    {/* <div style={{ marginTop: '20px' }}>{ this.state.orders_today }</div> */}
 
     <div style={{ marginTop: '20px' }}> <a href="https://github.com/stanleyume/sendthunder"><Icon icon="git-repo" iconSize={16}/> <div style={{ fontSize: '15px', display: 'inline-block', verticalAlign:'middle', marginLeft:'5px' }}> Github</div></a></div>
 
+
     <div className="footer">&copy; { new Date().getFullYear() }. All Rice Re-Served 🍚</div>
+    <div style={{ marginTop: '10px' }}>{ this.state.orders_today }</div>
   
   </div>);
   }

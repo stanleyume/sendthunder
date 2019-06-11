@@ -27,7 +27,7 @@ const orderSchema = new mongoose.Schema({
 
 // Get orders sent today
 orderSchema.statics.sentToday = async function () {
-  // This shit don't work on Atlas, because $where.
+  // This doesn't work on Atlas, because $where.
   // const orders_today = await this.find({ '$where': 'this.created_at.slice(0, 10) == new Date().toISOString().slice(0, 10)' }).sort({ 'meta.timestamp': -1 });
 
     const today = moment().startOf('day');
@@ -49,6 +49,11 @@ orderSchema.statics.sentThisHour = async function () {
     }
   }).sort({ 'meta.timestamp': -1 });
   return orders_this_hour;
+}
+
+orderSchema.statics.sentAllTime = async function () {
+  const orders_all_time = await this.find({});
+  return orders_all_time;
 }
 
 module.exports = mongoose.model('Order', orderSchema);

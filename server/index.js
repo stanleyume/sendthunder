@@ -15,7 +15,7 @@ require('dotenv').config();
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true });
 
-const whitelist = ['http://localhost:3000', 'http://sendthunder.herokuapp.com', 'http://sendthunder.com']
+const whitelist = ['http://localhost:3000', 'http://sendthunder.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Store new thunder
 app.post('/api/thunders', async (req, res)=>{
+  return res.status(403).send('Deprecated');
   const dupes = await Thunder.find({name: req.body.name});
 
   if(!dupes || dupes == ''){
@@ -67,7 +68,7 @@ app.post('/api/orders', async (req, res) => {
   let sentThisHour = await Order.sentThisHour();
   let whatHour = new Date().getHours();
 
-  // Daily and hourly rate limits
+  // Daily and hourly rate limits, because IFTTT
   if (sentToday.length >= 100 || sentThisHour.length >= 7) {
       res.statusMessage = "Please try again in an hour. All thunders have been summoned for a general meeting.";
       return res.sendStatus(403);
@@ -78,16 +79,16 @@ app.post('/api/orders', async (req, res) => {
     return res.sendStatus(403);
   }
 
-  let { thunder_name, recipient } = req.body;
+  let { thunder_name, recipient, thunders } = req.body;
   thunder_name = thunder_name.replace(/<[^>]*>?/gm, '');
   recipient = recipient.replace(/<[^>]*>?/gm, '');
   recipient = recipient.replace(/@/g, '');
   recipient = recipient.toLowerCase();
-  if(recipient.length > 15 || recipient.length < 2 || recipient.indexOf('sendthunder') !== -1){
+  if(recipient.length > 15 || recipient.length < 3 || recipient.indexOf('sendthunder') !== -1){
     res.statusMessage = 'Invalid Twitter handle';
     return res.sendStatus(403);
   }
-  if(thunder_name == ''){
+  if(thunder_name == '' || thunders.indexOf(thunder_name) == -1){
     res.statusMessage = 'Invalid Thunder name';
     return res.sendStatus(403);
   }
@@ -111,8 +112,10 @@ app.post('/api/orders', async (req, res) => {
 app.get('/api/orders/count', async (req, res) => {
   try {
     let sentToday = await Order.sentToday();
-    let count = sentToday.length.toString();
-    return res.status(200).send(count);
+    let sentAllTime = await Order.sentAllTime();
+    let countToday = sentToday.length;
+    let countAll = sentAllTime.length;
+    return res.status(200).json({countToday, countAll});
   } catch (error) {
     res.statusMessage = "Couldn't get order count";
     return res.sendStatus(403);
