@@ -36,8 +36,7 @@
     "server": "nodemon server/index.js",
     "dev": "concurrently \"npm run server\" \"webpack-dev-server\"",
     "client": "webpack-dev-server",
-    "nodemon": "nodemon --exec \"npm run start\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "nodemon": "nodemon --exec \"npm run start\""
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Toaster, Icon } from '@blueprintjs/core';
-// import { AtSign, Send, XCircle } from 'react-feather';
+import { GitHub } from 'react-feather';
 // import { serverUrl } from './config';
 
 class App extends Component {
@@ -21,10 +21,17 @@ class App extends Component {
         "Thunder with black belt",
         "Thunder that works remotely",
         "Thunder that took John Wick's crash course",
-        "Thunder that did internship with Sango"
+        "Thunder that did internship with Sango",
+        "Thunder in an infinite loop",
+        "Soft Thunder",
+        "Muri Thunder",
+        "Thunder with Masters degree from Harvard",
+        "Thunder with megaphone",
+        "Thunder with PhD in Electrical Engineering"
       ],
       orders: [],
-      orders_today: 0
+      orders_today: 0,
+      orders_count: 0
     }
 
   }
@@ -96,8 +103,8 @@ class App extends Component {
 
     
     {/* <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2> */}
+    {/* <div style={{ marginTop: '30px', color:'#DDD', fontSize:'30px' }}>{ this.state.orders_today } thunders dispatched</div> */}
 
-    <br/>
     
     {/* <form onSubmit={this.createThunder.bind(this)}>
       <InputGroup placeholder="Thunder title" name="name" large required/>
@@ -109,16 +116,19 @@ class App extends Component {
         <tr>
           <th width="50%">Thunder</th>
           <th>Recipient</th>
+          <th>Tracking No.</th>
         </tr>
       </thead>
       <tbody>
-        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td><a href={'https://twitter.com/'+order.recipient.replace('@', '')} target="_blank">{order.recipient}</a></td></tr>})}
+        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td><a href={'https://twitter.com/'+order.recipient.replace('@', '')} target="_blank">{order.recipient}</a></td><td>📦 {order.meta.id.slice(0,8).toUpperCase()}</td></tr>})}
       </tbody>
     </table>
 
     <div>Check Tweets & Replies of <a href="https://twitter.com/sendthunder" target="_blank"><u>@sendthunder</u></a></div>
 
-    <div style={{ marginTop: '20px' }}>{ this.state.orders_today }</div>
+    {/* <div style={{ marginTop: '20px' }}>{ this.state.orders_today }</div> */}
+
+    <div style={{ marginTop: '20px' }}> <a href="https://github.com/stanleyume/sendthunder"><Icon icon="git-repo" iconSize={16}/> <div style={{ fontSize: '15px', display: 'inline-block', verticalAlign:'middle', marginLeft:'5px' }}> Github</div></a></div>
 
     <div className="footer">&copy; { new Date().getFullYear() }. All Rice Re-Served 🍚</div>
   
