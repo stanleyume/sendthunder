@@ -102,14 +102,7 @@ class App extends Component {
     </form>
 
     
-    {/* <h2 style={{ marginTop: '50px', color: '#DEF' }}>That's enough fun for today. ⚡</h2> */}
-    <div style={{ marginTop: '30px', color:'#DDD', fontSize:'30px' }}>{ this.state.orders_all } orders processed</div>
-
-    
-    {/* <form onSubmit={this.createThunder.bind(this)}>
-      <InputGroup placeholder="Thunder title" name="name" large required/>
-      <Button intent="success" large type="submit">Save</Button>
-    </form> */}
+    {/* <div style={{ marginTop: '30px', color:'#DDD', fontSize:'30px' }}>{ this.state.orders_all } orders processed</div> */}
 
     <table>
       <thead>
@@ -120,7 +113,7 @@ class App extends Component {
         </tr>
       </thead>
       <tbody>
-        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td><a href={'https://twitter.com/'+order.recipient.replace('@', '')} target="_blank">{order.recipient}</a></td><td>📦 {order.meta.id.slice(0,8).toUpperCase()}</td></tr>})}
+        {this.state.orders.map((order, index) => { return <tr key={index}><td>{order.thunder_name}</td><td><a href={'https://twitter.com/'+order.recipient.replace('@', '')} target="_blank">{order.recipient}</a></td><td>{order.meta.id.slice(0,8).toUpperCase()}</td></tr>})}
       </tbody>
     </table>
 
