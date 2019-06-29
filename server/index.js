@@ -63,8 +63,10 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
 
-  res.statusMessage = "Thunders have retired.";
-  return res.sendStatus(403);
+  if (process.env.MAINTENANCE_MODE === "true") {
+    res.statusMessage = "On hiatus. Please come back later.";
+    return res.sendStatus(403);
+  }
 
   // Rate limiting, becuase IFTTT
   let sentToday = await Order.sentToday();

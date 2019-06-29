@@ -8,7 +8,7 @@ Just for laughs, it lets you send different flavors of thunder to anyone, anonym
 Unfortunately for them, "Back to sender" doesn't work.
 
 ### Why?
-I am a PHP dev learning the MERN stack. This was Node/React practice for me.
+I am learning Node & React. This was sort of a practice project.
 
 ### How?
 Even though I have access to the Twitter API, I thought it was too risky.
